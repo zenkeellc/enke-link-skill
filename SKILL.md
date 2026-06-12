@@ -1,6 +1,6 @@
 ---
 name: enke
-version: 1.0.2
+version: 1.1.0
 description: Create short links, share files securely, manage links and documents, view analytics, and create landing pages via en.ke. Use when the user asks to shorten URLs, share files, create short links, upload documents, view link stats, manage links/docs, create landing pages, or share context via temporary links.
 ---
 

@@ -1,17 +1,15 @@
 ---
 name: enke
-description: Shorten URLs, share context between agents, and manage links via en.ke — secure link & context relay for AI agents.
+description: Shorten URLs, securely share files, and manage links via en.ke — AI agent tool for link, doc & context relay.
 category: productivity
-tags: [links, url-shortener, sharing, context, agent-tools]
+tags: [links, url-shortener, sharing, context, agent-tools, file-sharing]
 ---
 
-# en.ke — Secure Link & Context Relay for AI Agents
+# en.ke — Secure Link, File & Context Relay for AI Agents
 
-en.ke provides revocable, auditable short links for AI agents to share files, pass context, and create temporary references.
+en.ke provides revocable, auditable short links and secure file sharing for AI agents to pass context, share files, and create temporary references.
 
 ## Prerequisites
-
-Install the enke CLI and log in:
 
 ```bash
 npm install -g enke-cli
@@ -25,30 +23,21 @@ enke login
 Create a short link from a URL.
 
 ```
-/enke:shorten <url> [--slug <custom-slug>] [--expires <duration>] [--password <pwd>]
+/enke:shorten <url> [--slug x] [--expires 7d] [--password x]
 ```
 
-**Examples:**
-```
-/enke:shorten https://example.com/very-long-url
-/enke:shorten https://example.com --slug my-report --expires 7d
-```
+### /enke:doc
 
-**Output:** The short URL (e.g., `https://en.ke/abc123`) which can be shared with users or other agents.
-
-### /enke:share
-
-Share text content or a file path via a temporary link. Content is included as a URL fragment or uploaded via the landing page.
+Upload and share a file securely.
 
 ```
-/enke:share <text-or-file-path> [--expires <duration>]
+/enke:doc upload <file-path> [--exp-days 7] [--password x] [--burn] [--no-download]
+/enke:doc list [--limit 20]
+/enke:doc delete <slug>
+/enke:doc update <slug> [--exp-days 30] [--password x]
 ```
 
-**Examples:**
-```
-/enke:share "Here is the context from our previous analysis..."
-/enke:share ./output/report.json --expires 24h
-```
+**Output:** `https://en.ke/{slug}` — shareable URL with preview, watermark, burn-after-reading support.
 
 ### /enke:links
 
@@ -60,7 +49,7 @@ List your recent short links.
 
 ### /enke:stats
 
-View click analytics for a link.
+View click analytics.
 
 ```
 /enke:stats <slug>
@@ -68,7 +57,7 @@ View click analytics for a link.
 
 ### /enke:revoke
 
-Revoke (delete) a short link. The link will stop working immediately.
+Revoke a link or delete a document.
 
 ```
 /enke:revoke <slug>
@@ -76,7 +65,7 @@ Revoke (delete) a short link. The link will stop working immediately.
 
 ### /enke:landing
 
-Create a landing page with multiple links.
+Create a landing page.
 
 ```
 /enke:landing <title> --links url1,label1;url2,label2
@@ -84,14 +73,15 @@ Create a landing page with multiple links.
 
 ## Implementation
 
-This skill invokes the enke CLI (`enke`) via bash. The CLI must be installed and authenticated.
-
-All slash commands map directly to enke CLI commands:
+All slash commands invoke the enke CLI via bash.
 
 | Slash Command | CLI Command |
 |---------------|-------------|
 | `/enke:shorten` | `enke link create` |
+| `/enke:doc upload` | `enke doc upload` |
+| `/enke:doc list` | `enke doc list` |
+| `/enke:doc delete` | `enke doc delete` |
 | `/enke:links` | `enke link list` |
 | `/enke:stats` | `enke link stats` |
-| `/enke:revoke` | `enke link delete` |
+| `/enke:revoke` | `enke link delete` / `enke doc delete` |
 | `/enke:landing` | `enke landing create` |

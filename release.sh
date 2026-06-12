@@ -14,10 +14,10 @@ if [[ -n $(git status --porcelain) ]]; then
 fi
 
 # 2. Update version in skill frontmatter
-sed -i '' "s/version: .*/version: $VERSION/" enke-skill.md
+sed -i '' "s/version: .*/version: $VERSION/" SKILL.md
 
 # 3. Git tag & push
-git add enke-skill.md
+git add SKILL.md
 git commit -m "release: v$VERSION"
 git tag "v$VERSION"
 git push "$GITHUB_REMOTE" main
@@ -32,28 +32,36 @@ if command -v gh &> /dev/null; then
 ### Install
 \`\`\`bash
 git clone git@github-zenkee:zenkeellc/enke-skill.git
-cp enke-skill/enke-skill.md ~/.claude/skills/
+mkdir -p ~/.claude/skills/enke
+cp enke-skill/SKILL.md ~/.claude/skills/enke/
+cp -r enke-skill/references ~/.claude/skills/enke/
 \`\`\`\`
 
 Requires: \`npm install -g enke-cli && enke login\`
 
-### Slash Commands (9)
+### Slash Commands (14)
 | Command | Description |
 |---------|-------------|
 | \`/enke:shorten\` | Create a short link |
+| \`/enke:links\` | List short links |
+| \`/enke:link-update\` | Update a link |
+| \`/enke:stats\` | Click analytics |
+| \`/enke:revoke\` | Delete a link |
 | \`/enke:doc upload\` | Upload & share a file |
 | \`/enke:doc list\` | List documents |
+| \`/enke:doc get\` | Get document details |
+| \`/enke:doc update\` | Update document settings |
+| \`/enke:doc renew\` | Reset expiration |
+| \`/enke:doc expire\` | Set expiration days |
 | \`/enke:doc delete\` | Delete a document |
-| \`/enke:links\` | List short links |
-| \`/enke:stats\` | Click analytics |
-| \`/enke:revoke\` | Delete link or document |
 | \`/enke:landing\` | Create landing page |
-| \`/enke:share\` | Share text/file via temp link |
+| \`/enke:whoami\` | Check auth status |
 
 ### Changes
-- Added document share commands (upload, list, delete)
-- Updated tagline to match AI agent positioning
-- Improved command descriptions" \
+- Split skill references by domain (links / docs / landing) for progressive loading
+- Added missing commands: link-update, doc get/renew/expire, whoami
+- Added missing options: --webhook, --comment, --max-downloads
+- Improved CLI install/auth guidance for agents" \
     --repo "zenkeellc/$REPO"
 else
   echo "GitHub CLI (gh) not found. Create release manually at:"

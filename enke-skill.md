@@ -1,5 +1,6 @@
 ---
 name: enke
+version: 1.0.1
 description: Shorten URLs, securely share files, and manage links via en.ke — AI agent tool for link, doc & context relay.
 category: productivity
 tags: [links, url-shortener, sharing, context, agent-tools, file-sharing]

@@ -1,0 +1,9 @@
+[submodule "tools/enke-cli"]
+	path = tools/enke-cli
+	url = git@github-zenkee:zenkeellc/enke-cli.git
+[submodule "tools/enke-mcp-server"]
+	path = tools/enke-mcp-server
+	url = git@github-zenkee:zenkeellc/enke-mcp-server.git
+[submodule "tools/enke-skill"]
+	path = tools/enke-skill
+	url = git@github-zenkee:zenkeellc/enke-skill.git

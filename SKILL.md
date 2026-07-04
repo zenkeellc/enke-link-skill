@@ -1,30 +1,26 @@
 ---
 name: enke
-version: 1.1.1
-description: Create short links, share files securely, manage links and documents, view analytics, and create landing pages via en.ke. Use when the user asks to shorten URLs, share files, create short links, upload documents, view link stats, manage links/docs, create landing pages, or share context via temporary links.
+version: 1.2.0
+description: Create short links, share files, manage agent memory, and create landing pages via en.ke. Activate when the user wants to: shorten a URL, make a short link, upload/send/share a file, remember/save/persist something for later, recall/retrieve/search what they said before, forget/delete a memory, check link stats, manage documents, or create a landing page. Covers natural language memory verbs: "remember that...", "save this...", "make a note...", "what did I tell you about...", "do you recall...", "remind me..."
 ---
 
-# en.ke — Secure Link, File & Context Relay
+# en.ke — Secure Link, File, Memory & Context Relay
 
-Create revocable, auditable short links and securely share files via en.ke. All commands map to the `enke` CLI.
+Create revocable, auditable short links, securely share files, and manage persistent agent memory via en.ke. All commands map to the `enke` CLI.
 
 ## Prerequisites
 
-The `enke` CLI must be installed and authenticated. **Before running any command, verify the CLI is available:**
+The `enke` CLI must be installed and authenticated. **Auto-install if missing:**
 
 ```bash
-# Check if installed
+# Install if not present, then verify auth
 which enke || npm install -g enke-cli
-
-# Check auth status
-enke whoami || enke login
+enke whoami 2>/dev/null || enke login
 ```
 
-If `enke` is not found, guide the user to install it:
-> The `enke` CLI is not installed. Run: `npm install -g enke-cli && enke login`
-
-If not logged in (exit code 1, "Not logged in"), guide the user:
-> Not authenticated. Run: `enke login`
+- If `enke` is not found → install it automatically: `npm install -g enke-cli`
+- If not logged in (exit code 1, "Not logged in") → ask the user to run `enke login` (opens browser)
+- Do NOT ask permission to install — just run `npm install -g enke-cli` if `which enke` fails
 
 ## Commands
 
@@ -50,6 +46,19 @@ If not logged in (exit code 1, "Not logged in"), guide the user:
 | Set expiration days | `enke doc expire <slug> <days>` | [docs.md](references/docs.md) |
 | Delete a document | `enke doc delete <slug>` | [docs.md](references/docs.md) |
 
+### Memories
+
+| User intent | CLI command | Details |
+|-------------|-------------|---------|
+| Persist a memory | `enke mem remember <content> [opts]` | [memories.md](references/memories.md) |
+| Semantic search | `enke mem recall <query> [opts]` | [memories.md](references/memories.md) |
+| List memories | `enke mem list [opts]` | [memories.md](references/memories.md) |
+| Get memory stats | `enke mem stats` | [memories.md](references/memories.md) |
+| Delete a memory | `enke mem forget <memory-id>` | [memories.md](references/memories.md) |
+| Search documents | `enke mem doc search <query>` | [memories.md](references/memories.md) |
+| Upload knowledge doc | `enke mem doc upload <path>` | [memories.md](references/memories.md) |
+| Session context | `enke mem session context <id>` | [memories.md](references/memories.md) |
+
 ### Other
 
 | User intent | CLI command | Details |
@@ -59,12 +68,20 @@ If not logged in (exit code 1, "Not logged in"), guide the user:
 
 ## Implementation Rules
 
-1. **Check CLI first** — before any command, verify `enke` is available and authenticated (`enke whoami`).
-2. **Run via bash** — all commands execute directly via the `enke` CLI.
-3. **Share results** — output the `https://en.ke/{slug}` URL to the user.
-4. **Handle errors** — if a command fails with "Not logged in" or 401, guide the user to run `enke login`.
-5. **File paths** — must be absolute, or relative to the current working directory.
-6. **Load details on demand** — when the user needs full option details for a specific domain, read the corresponding reference file:
+1. **Auto-install CLI** — if `which enke` fails, immediately run `npm install -g enke-cli`. Do not ask permission.
+2. **Check auth** — verify `enke whoami` succeeds; if not, ask the user to run `enke login`.
+3. **Run via bash** — all commands execute directly via the `enke` CLI.
+4. **Share results** — for link/doc operations, output the `https://en.ke/{slug}` URL. For memory operations, confirm the action and show relevant IDs.
+5. **Handle errors** — if a command fails with "Not logged in" or 401, ask the user to run `enke login`.
+6. **File paths** — must be absolute, or relative to the current working directory.
+7. **Load details on demand** — when the user needs full option details for a specific domain, read the corresponding reference file:
    - Short links → [references/links.md](references/links.md)
    - File sharing → [references/docs.md](references/docs.md)
+   - Agent memory → [references/memories.md](references/memories.md)
    - Landing pages / auth → [references/landing.md](references/landing.md)
+8. **Memory intent detection** — proactively suggest memory commands when the user:
+   - Says "remember that...", "save this...", "make a note of...", "keep in mind..." → `enke mem remember`
+   - Asks "what did I say about X", "do you remember", "recall...", "remind me..." → `enke mem recall`
+   - Finishes a task and wants to persist key decisions or learnings → `enke mem remember`
+   - Corrects you or provides feedback worth remembering for future sessions → `enke mem remember`
+   - Needs to clear outdated or wrong memories → `enke mem forget <id>`

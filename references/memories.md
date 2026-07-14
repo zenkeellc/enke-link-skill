@@ -10,7 +10,7 @@ The `enke mem` namespace provides persistent agent memory backed by semantic emb
 # Core CRUD
 enke mem remember <content> [--type semantic|episodic|procedural] [--ttl buffer|working|permanent] [--importance 0.5] [--tags tag1,tag2]
 enke mem recall <query> [--limit 10] [--type semantic] [--threshold 0.5]
-enke mem list [--type semantic] [--limit 20]
+enke mem list [--type semantic] [--limit 50]
 enke mem forget <memory-id>
 enke mem stats
 
@@ -21,10 +21,8 @@ enke mem doc list [--limit 20]
 enke mem doc delete <document-id>
 
 # Sessions (context assembly for agents)
-enke mem session create
+enke mem session create [--agent name]
 enke mem session context <session-id> [--limit 10]
-enke mem session close <session-id>
-enke mem session list
 ```
 
 ---
@@ -184,12 +182,6 @@ Creates a new session. Returns a session ID.
 ### `enke mem session context <id>`
 
 Assembles a context payload from memories created within this session. Useful for injecting into agent prompts.
-
-### `enke mem session close <id>`
-
-Closes the session (no new memories can be added).
-
----
 
 ## Error Handling
 

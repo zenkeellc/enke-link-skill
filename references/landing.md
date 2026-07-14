@@ -5,14 +5,14 @@
 Create a simple landing page (link-in-bio style).
 
 ```
-enke landing create <title> [--links url1,label1;url2,label2]
+enke landing create <slug> <title> [--links url1,title1;url2,title2]
 ```
 
 **Options:**
 
 | Option | Type | Description |
 |--------|------|-------------|
-| `--links <pairs>` | string | Semicolon-separated pairs: `url,label;url2,label2`. Label defaults to URL if omitted. |
+| `--links <pairs>` | string | Semicolon-separated pairs: `url,title;url2,title2`. Title defaults to URL if omitted. |
 
 **Output:**
 ```
@@ -24,7 +24,7 @@ enke landing create <title> [--links url1,label1;url2,label2]
 
 **Example:**
 ```bash
-enke landing create "My Links" --links https://github.com,GitHub;https://twitter.com,Twitter
+enke landing create my-links "My Links" --links https://github.com,GitHub;https://twitter.com,Twitter
 ```
 
 ## enke whoami

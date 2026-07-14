@@ -29,7 +29,7 @@ enke whoami 2>/dev/null || enke login
 | User intent | CLI command | Details |
 |-------------|-------------|---------|
 | Shorten a URL | `enke link create <url> [opts]` | [links.md](references/links.md) |
-| List my links | `enke link list [--limit n]` | [links.md](references/links.md) |
+| List my links | `enke link list [--cursor c] [--all]` | [links.md](references/links.md) |
 | Update a link | `enke link update <slug> [opts]` | [links.md](references/links.md) |
 | View click stats | `enke link stats <slug>` | [links.md](references/links.md) |
 | Delete a link | `enke link delete <slug>` | [links.md](references/links.md) |
@@ -39,7 +39,7 @@ enke whoami 2>/dev/null || enke login
 | User intent | CLI command | Details |
 |-------------|-------------|---------|
 | Upload & share a file | `enke doc upload <path> [opts]` | [docs.md](references/docs.md) |
-| List my documents | `enke doc list [--limit n]` | [docs.md](references/docs.md) |
+| List my documents | `enke doc list [--cursor c] [--all]` | [docs.md](references/docs.md) |
 | Get doc details | `enke doc get <slug>` | [docs.md](references/docs.md) |
 | Update doc settings | `enke doc update <slug> [opts]` | [docs.md](references/docs.md) |
 | Renew expiration | `enke doc renew <slug>` | [docs.md](references/docs.md) |
@@ -52,7 +52,7 @@ enke whoami 2>/dev/null || enke login
 |-------------|-------------|---------|
 | Persist a memory | `enke mem remember <content> [opts]` | [memories.md](references/memories.md) |
 | Semantic search | `enke mem recall <query> [opts]` | [memories.md](references/memories.md) |
-| List memories | `enke mem list [opts]` | [memories.md](references/memories.md) |
+| List memories | `enke mem list [--type t] [--limit 50]` | [memories.md](references/memories.md) |
 | Get memory stats | `enke mem stats` | [memories.md](references/memories.md) |
 | Delete a memory | `enke mem forget <memory-id>` | [memories.md](references/memories.md) |
 | Search documents | `enke mem doc search <query>` | [memories.md](references/memories.md) |
@@ -63,7 +63,7 @@ enke whoami 2>/dev/null || enke login
 
 | User intent | CLI command | Details |
 |-------------|-------------|---------|
-| Create a landing page | `enke landing create <title> [--links ...]` | [landing.md](references/landing.md) |
+| Create a landing page | `enke landing create <slug> <title> [--links ...]` | [landing.md](references/landing.md) |
 | Check auth status | `enke whoami` | [landing.md](references/landing.md) |
 
 ## Implementation Rules

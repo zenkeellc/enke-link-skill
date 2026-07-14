@@ -14,6 +14,7 @@ enke doc upload <file-path> [options]
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
+| `--slug <slug>` | string | auto-generated | Custom back-half for the share URL. |
 | `--exp-days <n>` | int | 30 | Days until expiration. |
 | `--password <pwd>` | string | — | Password-protect the document. |
 | `--comment <text>` | string | — | Owner-facing note (not shown to viewers). |
@@ -32,11 +33,16 @@ enke doc upload <file-path> [options]
 
 ## enke doc list
 
-List shared documents (newest first).
+List shared documents (paginated).
 
 ```
-enke doc list [--limit n]
+enke doc list [--cursor c] [--all] [--json]
 ```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--cursor <c>` | string | — | Pagination cursor from previous response. |
+| `--all` | flag | false | Auto-paginate — fetch all pages. |
 
 **Output:**
 ```
@@ -71,7 +77,7 @@ Update document settings. Only provided options are changed. Boolean flags accep
 enke doc update <slug> [options]
 ```
 
-**Options:** Same as `doc upload` — `--exp-days`, `--password`, `--comment`, `--burn`, `--no-download`, `--max-downloads`.
+**Options:** Same as `doc upload` — `--slug`, `--exp-days`, `--password`, `--comment`, `--burn`, `--no-download`, `--max-downloads`. Only provided options are changed.
 
 ## enke doc renew
 

@@ -12,12 +12,11 @@ enke link create <url> [options]
 
 **Options:**
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `--slug <slug>` | string | Custom back-half. Auto-generated if omitted. |
-| `--password <pwd>` | string | Password-protect the link. |
-| `--expires <duration>` | string | Expire after: `1h`, `24h`, `7d`, `30d`. |
-| `--webhook <url>` | string | Webhook URL called on each click. |
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `--slug <slug>` | string | auto-generated | Custom back-half. Auto-generated if omitted. |
+| `--password <pwd>` | string | — | Password-protect the link. |
+| `--keep-days <n>` | int | 30 | Days until expiration. |
 
 **Output:**
 ```
@@ -25,22 +24,32 @@ enke link create <url> [options]
   Slug:       my-link
   Short URL:  https://en.ke/my-link
   Target:     https://example.com
-  Clicks:     0
   Created:    2026-06-12T...
   Expires:    2026-06-19T...
 ```
 
-## enke link list
+## enke link get
 
-List your short links (newest first).
+Get full details for a single link.
 
 ```
-enke link list [--limit 20]
+enke link get <slug> [--json]
+```
+
+**Output:** Full link record with all fields (slug, url, password presence, comment, rules, A/B targets, preview config, etc.).
+
+## enke link list
+
+List your short links (paginated).
+
+```
+enke link list [--cursor c] [--all] [--json]
 ```
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `--limit <n>` | int | 20 | Max results to return. |
+| `--cursor <c>` | string | — | Pagination cursor from previous response. |
+| `--all` | flag | false | Auto-paginate — fetch all pages. |
 
 **Output:** One block per link, same format as `link create`.
 
@@ -52,33 +61,44 @@ Update a link's properties.
 enke link update <slug> [options]
 ```
 
-**Options:** Same as `link create` — `--slug`, `--password`, `--expires`, `--webhook`. Only provided options are changed.
+**Options:**
 
-**Output:** Same as `link create`.
+| Option | Type | Description |
+|--------|------|-------------|
+| `--url <url>` | string | New redirect URL. |
+| `--password <pwd>` | string | New password (empty string to remove). |
+
+**Output:** Same format as `link create`.
 
 ## enke link stats
 
 View click analytics for a link.
 
 ```
-enke link stats <slug>
+enke link stats <slug> [--json]
 ```
 
 **Output:**
 ```
 Stats for "my-link":
-  Total clicks: 142
+  Total visits:     142
+  Unique countries: 5
+  Unique referers:  8
   Daily:
     2026-06-12: 23
     2026-06-11: 45
     ...
-  Referrers:
+  Top referrers:
     twitter.com: 56
     google.com: 34
     ...
-  Countries:
+  Top countries:
     US: 78
     CN: 32
+    ...
+  Devices:
+    desktop: 80
+    mobile: 52
     ...
 ```
 
@@ -98,9 +118,18 @@ enke link delete <slug>
 # Basic shorten
 enke link create https://example.com
 
-# Custom slug + expiration
-enke link create https://example.com --slug my-page --expires 7d
+# Custom slug + keep duration
+enke link create https://example.com --slug my-page --keep-days 7
 
-# Password-protected + webhook
-enke link create https://example.com --password hunter2 --webhook https://my.app/webhook
+# Password-protected
+enke link create https://example.com --password hunter2
+
+# Update target URL
+enke link update my-link --url https://new-target.com
+
+# List all links (paginated)
+enke link list --all
+
+# JSON output for scripting
+enke link list --json
 ```

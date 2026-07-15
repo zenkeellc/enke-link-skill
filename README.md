@@ -47,18 +47,7 @@ cp -r references ~/.claude/skills/enke/
 
 ## Memory Commands
 
-The skill also handles natural-language memory verbs. When a user says "remember that...", "save this...", or "recall...", the CLI executes the corresponding command:
-
-| User says | CLI executed |
-|-----------|-------------|
-| "remember that X", "save this" | `enke mem remember <content>` |
-| "what did I say about X", "recall X" | `enke mem recall <query>` |
-| "list memories", "what do you remember" | `enke mem list` |
-| "forget X", "delete memory X" | `enke mem forget <id>` |
-| "search docs for X" | `enke mem doc search <query>` |
-| "upload this doc to my knowledge base" | `enke mem doc upload <path>` |
-
-See [references/memories.md](references/memories.md) for full memory command details.
+Persistent agent memory ("remember that...", "recall...", `enke mem`) has moved to its own skill: [enke-mem-skill](https://github.com/zenkeellc/enke-mem-skill).
 
 ## Skill Structure
 
@@ -68,14 +57,13 @@ enke-skill/
 ├── references/
 │   ├── links.md              # Link commands — loaded for URL shortening tasks
 │   ├── docs.md               # Document commands — loaded for file sharing tasks
-│   ├── memories.md           # Memory commands — loaded for agent memory tasks
 │   └── landing.md            # Landing page & auth — loaded when needed
 ├── README.md                 # This file
 ├── LICENSE                   # MIT
 └── release.sh                # Release script
 ```
 
-Progressive disclosure: Claude only loads the reference file relevant to the user's task (links, docs, memories, or landing), keeping context usage minimal.
+Progressive disclosure: Claude only loads the reference file relevant to the user's task (links, docs, or landing), keeping context usage minimal.
 
 ## License
 

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 VERSION="${1:-1.0.0}"
-REPO="enke-skill"
+REPO="enke-link-skill"
 GITHUB_REMOTE="origin"
 
 echo "=== Releasing $REPO v$VERSION ==="
@@ -31,10 +31,10 @@ if command -v gh &> /dev/null; then
 
 ### Install
 \`\`\`bash
-git clone git@github-zenkee:zenkeellc/enke-skill.git
+git clone git@github.com:zenkeellc/enke-link-skill.git
 mkdir -p ~/.claude/skills/enke
-cp enke-skill/SKILL.md ~/.claude/skills/enke/
-cp -r enke-skill/references ~/.claude/skills/enke/
+cp enke-link-skill/SKILL.md ~/.claude/skills/enke/
+cp -r enke-link-skill/references ~/.claude/skills/enke/
 \`\`\`\`
 
 Requires: \`npm install -g enke-cli && enke login\`

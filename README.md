@@ -52,7 +52,7 @@ Persistent agent memory ("remember that...", "recall...", `enke mem`) has moved 
 ## Skill Structure
 
 ```
-enke-skill/
+enke-link-skill/
 ├── SKILL.md                  # Skill instructions (loaded when triggered)
 ├── references/
 │   ├── links.md              # Link commands — loaded for URL shortening tasks
